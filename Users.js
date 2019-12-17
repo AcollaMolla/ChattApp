@@ -1,14 +1,16 @@
+var HashHelper = require('./HashHelper');
+
 var users = [
     {
-        id: "12345",
+        id: HashHelper.HashUsername("Anton"),
         name: "Anton"
     },
     {
-        id: "67890",
+        id: HashHelper.HashUsername("Test"),
         name: "Test"
     },
     {
-        id: "00000",
+        id: HashHelper.HashUsername("Dev"),
         name: "Dev"
     }
 ];

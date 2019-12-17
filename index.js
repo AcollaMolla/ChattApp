@@ -39,27 +39,31 @@ io.on('connection', function(socket){
         user: GetCookieName(cookie),
         msg: connectionMessage
     };
+    userHelper.SetUserSocketID(cookie, socket.id)
     io.emit('user-joining', message);
 
     socket.on('disconnect', function(){
+        var user = userHelper.GetUsers().find(val => val.socketID === socket.id);
         var message = {
-            user: socket.id,
+            user: user.name,
             msg: disconnectingMessage
         };
         io.emit('user-leaving', message);
     })
 
     socket.on('chat-message', function(msg){
+        var user = userHelper.GetUsers().find(val => val.socketID === socket.id);
         var message = {
             msg: msg,
-            user: socket.id
+            user: user.name
         };
         io.emit('chat-message', message);
     });
 
     socket.on('user-typing', function(msg){
+        var user = userHelper.GetUsers().find(val => val.socketID === socket.id);
         var message = {
-            user: socket.id,
+            user: user.name,
             msg: " is typing"
         }
         io.emit('user-typing', message);

@@ -4,17 +4,20 @@ var users = [
     {
         id: HashHelper.HashUsername("Anton"),
         name: "Anton",
-        socketID: null
+        socketID: null,
+        active: false
     },
     {
         id: HashHelper.HashUsername("Test"),
         name: "Test",
-        socketID: null
+        socketID: null,
+        active: false
     },
     {
         id: HashHelper.HashUsername("Dev"),
         name: "Dev",
-        socketID: null
+        socketID: null,
+        active: false
     }
 ];
 

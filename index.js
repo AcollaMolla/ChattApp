@@ -39,34 +39,42 @@ io.on('connection', function(socket){
         user: GetCookieName(cookie),
         msg: connectionMessage
     };
-    userHelper.SetUserSocketID(cookie, socket.id)
+    SetUserSocketID(cookie, socket.id);
     io.emit('user-joining', message);
 
     socket.on('disconnect', function(){
         var user = userHelper.GetUsers().find(val => val.socketID === socket.id);
-        var message = {
-            user: user.name,
-            msg: disconnectingMessage
-        };
-        io.emit('user-leaving', message);
+        if(user !== undefined){
+            var message = {
+                user: user.name,
+                msg: disconnectingMessage
+            };
+            io.emit('user-leaving', message);
+        }
     })
 
     socket.on('chat-message', function(msg){
         var user = userHelper.GetUsers().find(val => val.socketID === socket.id);
-        var message = {
-            msg: msg,
-            user: user.name
-        };
-        io.emit('chat-message', message);
+        if(user === undefined)socket.disconnect();
+        if(user !== undefined){
+            var message = {
+                msg: msg,
+                user: user.name
+            };
+            io.emit('chat-message', message);
+        }
     });
 
     socket.on('user-typing', function(msg){
         var user = userHelper.GetUsers().find(val => val.socketID === socket.id);
-        var message = {
-            user: user.name,
-            msg: " is typing"
+        if(user === undefined)socket.disconnect();
+        if(user !== undefined){
+            var message = {
+                user: user.name,
+                msg: " is typing"
+            }
+            io.emit('user-typing', message);
         }
-        io.emit('user-typing', message);
     });
 });
 
@@ -98,4 +106,12 @@ function ValidateCookie(value){
             return true;
     }
     return false;
+}
+
+function SetUserSocketID(cookie, socketID){
+    var user = userHelper.GetUsers().find(val => val.id === cookie);
+    if(user.socketID === null)
+        userHelper.SetUserSocketID(cookie, socketID)
+    else
+        userHelper.SetUserSocketID(cookie, user.socketID);
 }

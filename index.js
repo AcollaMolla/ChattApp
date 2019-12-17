@@ -14,7 +14,8 @@ const disconnectingMessage = " left the conversation";
 app.get('/', function(req, res){
     if(req.query.username !== undefined){
         if(ValidateUser(req.query.username)){
-            res.cookie("User", GetCookieValue(req.query.username));
+            var expiryDate = new Date(Number(new Date()) + 63113851900);
+            res.cookie("User", GetCookieValue(req.query.username),{expires: expiryDate});
             return res.sendFile(__dirname + '/templates/index.html');
         }
         return res.redirect('/join');

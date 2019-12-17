@@ -6,23 +6,10 @@ var ioCookieParser = require('socket.io-cookie-parser');
 app.use(cookieParser());
 io.use(ioCookieParser());
 
+var userHelper = require('./Users');
+
 const connectionMessage = " joined the conversation";
 const disconnectingMessage = " left the conversation";
-
-var users = [
-    {
-        id: "12345",
-        name: "Anton"
-    },
-    {
-        id: "67890",
-        name: "Test"
-    },
-    {
-        id: "00000",
-        name: "Dev"
-    }
-];
 
 app.get('/', function(req, res){
     if(req.query.username !== undefined){
@@ -83,26 +70,26 @@ http.listen(3000, function(){
 });
 
 function GetCookieValue(name){
-    var user = users.find(val => val.name === name);
+    var user = userHelper.GetUsers().find(val => val.name === name);
     return user.id;
 }
 
 function GetCookieName(value){
-    var user = users.find(val => val.id === value);
+    var user = userHelper.GetUsers().find(val => val.id === value);
     return user.name;
 }
 
 function ValidateUser(username){
-    for(var i = 0;i < users.length;i++){
-        if(users[i].name === username)
+    for(var i = 0;i < userHelper.GetUsers().length;i++){
+        if(userHelper.GetUsers()[i].name === username)
             return true;
     }
     return false;
 }
 
 function ValidateCookie(value){
-    for(var i = 0;i < users.length; i++){
-        if(users[i].id === value)
+    for(var i = 0;i < userHelper.GetUsers().length; i++){
+        if(userHelper.GetUsers()[i].id === value)
             return true;
     }
     return false;

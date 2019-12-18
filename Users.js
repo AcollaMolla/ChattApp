@@ -4,19 +4,19 @@ var users = [
     {
         id: HashHelper.HashUsername("Anton"),
         name: "Anton",
-        socketID: null,
+        socketID: [],
         active: false
     },
     {
         id: HashHelper.HashUsername("Test"),
         name: "Test",
-        socketID: null,
+        socketID: [],
         active: false
     },
     {
         id: HashHelper.HashUsername("Dev"),
         name: "Dev",
-        socketID: null,
+        socketID: [],
         active: false
     }
 ];
@@ -28,6 +28,6 @@ module.exports = {
 
     SetUserSocketID: function(id, socketID){
         var user = users.find(val => val.id === id);
-        user.socketID = socketID;
+        user.socketID.push(socketID);
     }
 }

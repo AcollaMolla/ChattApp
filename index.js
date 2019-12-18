@@ -54,7 +54,7 @@ io.on('connection', function(socket){
     })
 
     socket.on('chat-message', function(msg){
-        var user = userHelper.GetUsers().find(val => val.socketID === socket.id);
+        var user = userHelper.GetUsers().find(val => val.socketID.includes(socket.id));
         if(user === undefined)socket.disconnect();
         if(user !== undefined){
             var message = {
@@ -66,7 +66,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('user-typing', function(msg){
-        var user = userHelper.GetUsers().find(val => val.socketID === socket.id);
+        var user = userHelper.GetUsers().find(val => val.socketID.includes(socket.id));
         if(user === undefined)socket.disconnect();
         if(user !== undefined){
             var message = {
@@ -110,8 +110,5 @@ function ValidateCookie(value){
 
 function SetUserSocketID(cookie, socketID){
     var user = userHelper.GetUsers().find(val => val.id === cookie);
-    if(user.socketID === null)
-        userHelper.SetUserSocketID(cookie, socketID)
-    else
-        userHelper.SetUserSocketID(cookie, user.socketID);
+    userHelper.SetUserSocketID(cookie, socketID)
 }

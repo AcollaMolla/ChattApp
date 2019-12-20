@@ -23,16 +23,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-        var ctrIsClicked = false;
-        $(document).keydown(function(event){
-            if(event.which=="17"){
-                ctrIsClicked = true;
-            }
-            if(event.which=="81" && ctrIsClicked){
-                console.log("settings");
-                ctrIsClicked = false;
-            }
-        });
         $(function(){
             var socket = io();
             var typing = false;

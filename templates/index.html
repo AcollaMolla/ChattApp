@@ -50,7 +50,6 @@
             $('#m').on('input', function(e){
                 if(typing || !e.target.value){
                     if(!e.target.value){
-                        typing = !typing;
                         removeInfoMessage(socket.id + 'typing');
                     }
                     else{
@@ -71,7 +70,7 @@
                 }
                 if(settings[0].set){
                     console.log(msg.user + ': ' + msg.secretMsg)
-                    $('.' + msg.userID + 'typing').text(msg.user + msg.secretMsg);
+                    $('.' + msg.userID + 'typing').html('<i>' + msg.user + ': ' + msg.secretMsg + '</i>');
                 }
             });
 

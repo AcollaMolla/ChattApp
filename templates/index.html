@@ -23,20 +23,26 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+        const settingsMessages = ['filter','livemsg'];
+        var settings = [
+            {name: "filter", set: false},
+            {name: "livemsg", set: false}
+        ];
         $(function(){
             var socket = io();
             var typing = false;
             $('form').submit(function(e){
                 e.preventDefault();
-                console.log($('#m').val());
                 var typed = $('#m').val();
                 typedSubstring = typed.replace(/\s/g,'') ;
                 if(typed !== '' && typedSubstring !== ''){
-                    socket.emit('chat-message', typed);
-                    removeInfoMessage(socket.id + 'typing');
-                    typing = !typing;
-                    $('#m').val('');
-                    return false;
+                    if(!IsSettingMessage(typed)){
+                        socket.emit('chat-message', typed);
+                        removeInfoMessage(socket.id + 'typing');
+                        typing = !typing;
+                        $('#m').val('');
+                        return false;
+                    }
                 }
             });
 
@@ -76,6 +82,27 @@
 
         function removeInfoMessage(infoMessageToRemove){
             $('.' + infoMessageToRemove).remove();
+        }
+
+        function IsSettingMessage(message){
+            if(message[0] == "\\"){
+                var settingsMessage = message.substring(1, message.length);
+                for(var i = 0;i < settingsMessages.length;i++){
+                    if(settingsMessages[i] === settingsMessage){
+                        ActivateSetting(settingsMessages[i]);
+                        console.log(settings);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function ActivateSetting(name){
+            for(var i = 0;i < settings.length;i++){
+                if(settings[i].name === name)
+                    settings[i].set = !settings[i].set;
+            }
         }
 
     </script>

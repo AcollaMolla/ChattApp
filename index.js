@@ -37,7 +37,8 @@ io.on('connection', function(socket){
     var cookie = socket.request.cookies['User'];
     var message = {
         user: GetCookieName(cookie),
-        msg: connectionMessage
+        msg: connectionMessage,
+        userID: cookie
     };
     SetUserSocketID(cookie, socket.id);
     io.emit('user-joining', message);
@@ -47,7 +48,8 @@ io.on('connection', function(socket){
         if(user !== undefined){
             var message = {
                 user: user.name,
-                msg: disconnectingMessage
+                msg: disconnectingMessage,
+                userID: user.id
             };
             io.emit('user-leaving', message);
         }
@@ -59,7 +61,8 @@ io.on('connection', function(socket){
         if(user !== undefined){
             var message = {
                 msg: msg,
-                user: user.name
+                user: user.name,
+                userID: user.id
             };
             io.emit('chat-message', message);
             io.emit('user-done-typing', message);
@@ -72,7 +75,8 @@ io.on('connection', function(socket){
         if(user !== undefined){
             var message = {
                 user: user.name,
-                msg: " is typing"
+                msg: " is typing",
+                userID: user.id
             }
             io.emit('user-typing', message);
         }

@@ -28,11 +28,14 @@
             var typing = false;
             $('form').submit(function(e){
                 e.preventDefault();
-                socket.emit('chat-message', $('#m').val());
-                removeInfoMessage(socket.id + 'typing');
-                typing = !typing;
-                $('#m').val('');
-                return false;
+                console.log($('#m').val());
+                if($('#m').val() !== ''){
+                    socket.emit('chat-message', $('#m').val());
+                    removeInfoMessage(socket.id + 'typing');
+                    typing = !typing;
+                    $('#m').val('');
+                    return false;
+                }
             });
 
             $('#m').on('input', function(e){

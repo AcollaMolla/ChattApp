@@ -78,7 +78,7 @@ io.on('connection', function(socket){
                 msg: " is typing",
                 userID: user.id
             }
-            io.emit('user-typing', message);
+            socket.broadcast.emit('user-typing', message);
         }
     });
 });

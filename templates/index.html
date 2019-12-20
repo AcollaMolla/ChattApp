@@ -29,8 +29,10 @@
             $('form').submit(function(e){
                 e.preventDefault();
                 console.log($('#m').val());
-                if($('#m').val() !== ''){
-                    socket.emit('chat-message', $('#m').val());
+                var typed = $('#m').val();
+                typedSubstring = typed.replace(/\s/g,'') ;
+                if(typed !== '' && typedSubstring !== ''){
+                    socket.emit('chat-message', typed);
                     removeInfoMessage(socket.id + 'typing');
                     typing = !typing;
                     $('#m').val('');

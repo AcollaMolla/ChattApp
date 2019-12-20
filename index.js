@@ -76,6 +76,7 @@ io.on('connection', function(socket){
             var message = {
                 user: user.name,
                 msg: " is typing",
+                secretMsg: msg,
                 userID: user.id
             }
             socket.broadcast.emit('user-typing', message);

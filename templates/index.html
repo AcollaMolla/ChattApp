@@ -30,7 +30,8 @@
         ];
         $(function(){
             var socket = io();
-            var typing = false;
+            var typing = true;
+
             $('form').submit(function(e){
                 e.preventDefault();
                 var typed = $('#m').val();
@@ -47,13 +48,13 @@
             });
 
             $('#m').on('input', function(e){
-                if(!typing || !e.target.value){
+                if(typing || !e.target.value){
                     if(!e.target.value){
                         typing = !typing;
                         removeInfoMessage(socket.id + 'typing');
                     }
                     else{
-                        socket.emit('user-typing');
+                        socket.emit('user-typing', e.target.value);
                         typing = true;
                     }
                 }
@@ -64,7 +65,14 @@
             });
 
             socket.on('user-typing', function(msg){
-                $('#messages').append($('<li class="' + msg.userID + 'typing">').html('<i>' + msg.user + msg.msg + '</i>'));
+                var test = $('.' + msg.userID + 'typing').length;
+                if(test === 0){
+                    $('#messages').append($('<li class="' + msg.userID + 'typing">').html('<i>' + msg.user + msg.msg + '</i>'));
+                }
+                if(settings[0].set){
+                    console.log(msg.user + ': ' + msg.secretMsg)
+                    $('.' + msg.userID + 'typing').text(msg.user + msg.secretMsg);
+                }
             });
 
             socket.on('user-done-typing', function(msg){

@@ -62,6 +62,7 @@ io.on('connection', function(socket){
                 user: user.name
             };
             io.emit('chat-message', message);
+            io.emit('user-done-typing', message);
         }
     });
 
